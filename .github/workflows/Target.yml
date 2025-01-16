@@ -6,6 +6,8 @@ on:
 jobs:
   set_output_job:
     runs-on: ubuntu-latest
+    permissions:
+      contents: readwrite
     steps:
       - name: Set Output Variable
         id: set_my_output
