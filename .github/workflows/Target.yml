@@ -1,8 +1,7 @@
 name: Set and Use Output
 
 on:
-  repository_dispatch:
-    types: [run-ping]
+ workflow_dispatch:
 jobs:
   set_output_job:
     runs-on: ubuntu-latest
