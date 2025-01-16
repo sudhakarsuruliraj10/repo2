@@ -1,22 +1,16 @@
-name: Check Dotnet Installation on Windows
-on:
-  workflow_dispatch:
-
+name: workflow_02
+on: [repository_dispatch]
 jobs:
-  check-dotnet:
-    runs-on: windows-latest
+  cypress-run:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-          dotnet-version: 8.0.x
-    - name: Check for dotnet installation
-      run: |
-        dotnet --version
-        if %ERRORLEVEL% EQU 0 (
-          echo "dotnet is installed."
-        ) else (
-          echo "dotnet is not installed."
-        )
+      - run: echo "Triggering Wokflow 2"
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test         
+        run: |
+            echo 'test'
+            curl -X POST https://api.github.com/repos/annamalaiponnusamy/repo_01/dispatches \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -u ${{ secrets.ACTIONS_KEY }} \
+            --data '{"event_type": "Trigger Workflow1", "client_payload": { "repository": "test" }}'     
