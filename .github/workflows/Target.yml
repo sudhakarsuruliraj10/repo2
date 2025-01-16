@@ -1,16 +1,17 @@
-name: workflow_02
-on: [main]
+name: Set and Use Output
+
+on:
+  workflow_dispatch:
+
 jobs:
-  cypress-run:
+  set_output_job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Triggering Wokflow 2"
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Test         
+      - name: Set Output Variable
+        id: set_my_output
         run: |
-            echo 'test'
-            curl -X POST https://api.github.com/repos/annamalaiponnusamy/repo_01/dispatches \
-            -H 'Accept: application/vnd.github.everest-preview+json' \
-            -u ${{ secrets.ACTIONS_KEY }} \
-            --data '{"event_type": "Trigger Workflow1", "client_payload": { "repository": "test" }}'     
+          echo "::set-output name=my_output::Hello from output"
+
+      - name: Use Output Variable
+        run: |
+          echo "My output value: ${{ steps.set_my_output.outputs.my_output }}"
