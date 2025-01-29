@@ -13,5 +13,5 @@ jobs:
    steps:    
      - name: Fetch remote job output
        run: |     
-           jobs_json=$(curl -s -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" "https://api.github.com/repos/inContact/qa-aspf-lab-dynamic-autoscale/actions/runs/13026385289/jobs")
+           jobs_json=$(curl -v -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" "https://api.github.com/repos/inContact/qa-aspf-lab-dynamic-autoscale/actions/runs/13026385289/jobs")
             echo "$jobs_json" | jq . # Pretty-print the JSON output
