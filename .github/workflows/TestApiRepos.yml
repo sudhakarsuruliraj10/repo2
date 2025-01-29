@@ -1,18 +1,33 @@
-name: Call a reusable workflow and use its outputs
+name: Get Latest Workflow Run ID (Shell)
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-   
 
 jobs:
-  job1:
-   runs-on: ubuntu-latest
-   outputs:
-      output1: ${{ steps.trigger-step2.outputs.output1 }}
-   steps:    
-    - name: Data Print
-    - id: Data1        
-      run: |     
-           echo "Winsip id : 324343"
-   
+  get_latest_run_id:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest Workflow Run ID
+        id: get_latest_run_id
+        run: |
+          latest_run_id=$(curl -s -H "Authorization: token ${{ secrets.ACTIONS_KEY }}" \
+                             -H "Accept: application/vnd.github+json" \
+                             "https://api.github.com/repos/repo2/actions/workflows/set_output_job/runs" \
+                             | jq -r '.workflow_runs[0].id')
+           echo "::set-output name=latest_run_id::$latest_run_id"
+      - name: Log Latest Workflow Run ID
+        run: |
+          $STATUS = "pass"  
+          if ($STATUS -match "pass") 
+          {
+           echo "ResultPass"
+           #echo "response-output=pass" >> $GITHUB_OUTPUT  
+           echo "::set-output name=response-output::ResultPass" 
+           } 
+           else 
+           {
+             echo "ResultFail"
+             #echo "response-output=fail" >> $GITHUB_OUTPUT  
+             echo "::set-output name=response-output::ResultFail" 
+           }
+          echo "Latest Workflow Run ID: ${{ steps.get_latest_run_id.outputs.latest_run_id }}" 
