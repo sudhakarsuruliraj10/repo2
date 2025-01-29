@@ -11,7 +11,8 @@ jobs:
    outputs:
       output1: ${{ steps.trigger-step2.outputs.output1 }}
    steps:    
-     - name: Fetch remote job output
-       run: |     
-           jobs_json=$(curl -S -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" "https://api.github.com/repos/annamalaiponnusamy/repo_02/actions/runs/13010001391/jobs")
-            echo "$jobs_json" | jq . # Pretty-print the JSON output
+    - name: Data Print
+    - id: Data1        
+      run: |     
+           echo "Winsip id : 324343"
+   
