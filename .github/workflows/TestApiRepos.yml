@@ -15,4 +15,4 @@ jobs:
        run: |
            curl -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" \
                 https://api.github.com/repos/inContact/qa-aspf-lab-dynamic-autoscale/actions/runs/13026385289/jobs \
-                 | jq '.jobs[] | select(.name == "example_job") | .steps[] | .outputs'
+                 | jq '.jobs[] | .steps[] | .outputs'
