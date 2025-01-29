@@ -12,7 +12,6 @@ jobs:
       output1: ${{ steps.trigger-step2.outputs.output1 }}
    steps:    
      - name: Fetch remote job output
-       run: |
-           curl -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" \
-                https://api.github.com/repos/inContact/qa-aspf-lab-dynamic-autoscale/actions/runs/13026385289/jobs \
-                 | jq '.jobs[] | .steps[] | .outputs'
+       run: |     
+           jobs_json=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.ACTIONS_KEY }}" "https://api.github.com/repos/inContact/qa-aspf-lab-dynamic-autoscale/actions/runs/13026385289/jobs")
+            echo "$jobs_json" | jq . # Pretty-print the JSON output
